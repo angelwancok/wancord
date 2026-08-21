@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wancord</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- MODAL: nome de usuário -->
+<div id="usernameModal" class="modal-overlay">
+  <div class="modal-box">
+    <h2>Escolha seu nome</h2>
+    <input id="usernameInput" maxlength="24" placeholder="Seu nome de exibição" />
+    <button id="usernameConfirm">Continuar</button>
+  </div>
+</div>
+
+<!-- MODAL: criar servidor -->
+<div id="createServerModal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <h2>Criar servidor</h2>
+    <input id="newServerName" maxlength="40" placeholder="Nome do servidor" />
+    <label class="checkbox-row">
+      <input type="checkbox" id="newServerPrivate" /> Servidor privado
+    </label>
+    <input id="newServerPassword" placeholder="Senha do servidor (se privado)" class="hidden" />
+    <div class="modal-actions">
+      <button id="cancelCreateServer" class="btn-secondary">Cancelar</button>
+      <button id="confirmCreateServer">Criar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: entrar em servidor privado -->
+<div id="joinServerModal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <h2>Entrar com código de convite</h2>
+    <input id="joinServerId" placeholder="Código de convite" />
+    <input id="joinServerPassword" placeholder="Senha (se privado)" />
+    <div class="modal-actions">
+      <button id="cancelJoinServer" class="btn-secondary">Cancelar</button>
+      <button id="confirmJoinServer">Entrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: criar canal -->
+<div id="createChannelModal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <h2>Criar canal</h2>
+    <input id="newChannelName" maxlength="30" placeholder="Nome do canal" />
+    <div class="channel-type-row">
+      <label><input type="radio" name="chType" value="text" checked> Texto</label>
+      <label><input type="radio" name="chType" value="voice"> Voz</label>
+    </div>
+    <div class="modal-actions">
+      <button id="cancelCreateChannel" class="btn-secondary">Cancelar</button>
+      <button id="confirmCreateChannel">Criar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: convite gerado -->
+<div id="inviteModal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <h2>Servidor criado!</h2>
+    <p>Compartilhe este código de convite com outras pessoas:</p>
+    <div class="invite-code" id="inviteCodeText"></div>
+    <div class="modal-actions">
+      <button id="closeInviteModal">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<div class="app-shell">
+
+  <!-- COLUNA 1: lista de servidores -->
+  <div class="server-rail">
+    <div class="server-icon home active" id="serverListToggle" title="Servidores públicos">WC</div>
+    <div class="server-divider"></div>
+    <div id="serverIconList"></div>
+    <div class="server-icon add-server" id="openCreateServer" title="Criar servidor">+</div>
+    <div class="server-icon add-server" id="openJoinServer" title="Entrar com convite">#</div>
+  </div>
+
+  <!-- COLUNA 2: canais do servidor selecionado -->
+  <div class="channel-sidebar">
+    <div class="server-header" id="currentServerName">Selecione um servidor</div>
+    <div class="channel-list" id="channelList"></div>
+    <div class="user-panel">
+      <div class="user-avatar" id="userAvatarInitial"></div>
+      <div class="user-info">
+        <div class="user-name" id="userNameDisplay"></div>
+        <div class="user-status">Online</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLUNA 3: conteúdo principal (chat ou chamada) -->
+  <div class="main-area">
+    <div class="main-header">
+      <span id="currentChannelName">Bem-vindo ao AngelCord</span>
+    </div>
+
+    <!-- área de texto -->
+    <div id="textView" class="text-view">
+      <div id="messagesContainer" class="messages-container"></div>
+      <div class="message-input-row">
+        <input id="messageInput" placeholder="Enviar mensagem..." autocomplete="off" />
+        <button id="sendMessageBtn">Enviar</button>
+      </div>
+    </div>
+
+    <!-- área de voz/vídeo -->
+    <div id="voiceView" class="voice-view hidden">
+      <div id="videoGrid" class="video-grid"></div>
+      <div class="voice-controls">
+        <button id="toggleMicBtn" class="control-btn">🎤 Mic</button>
+        <button id="toggleDeafenBtn" class="control-btn">🔊 Som</button>
+        <button id="toggleCamBtn" class="control-btn">📷 Câmera</button>
+        <button id="toggleScreenBtn" class="control-btn">🖥️ Compartilhar tela</button>
+        <button id="leaveVoiceBtn" class="control-btn danger">📞 Sair</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>

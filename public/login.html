@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wancord - Entrar</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="login-body">
+  <div class="login-box">
+    <h1 class="logo">Wan<span>cord</span></h1>
+    <p class="subtitle">Digite a senha de acesso para entrar</p>
+    <form id="loginForm">
+      <input type="password" id="password" placeholder="Senha" autocomplete="current-password" required />
+      <button type="submit">Entrar</button>
+    </form>
+    <p id="errorMsg" class="error-msg"></p>
+  </div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const password = document.getElementById('password').value;
+  const errorEl = document.getElementById('errorMsg');
+  errorEl.textContent = '';
+  try {
+    const res = await fetch('/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      window.location.href = '/app.html';
+    } else {
+      errorEl.textContent = data.error || 'Senha incorreta.';
+    }
+  } catch (err) {
+    errorEl.textContent = 'Erro ao conectar ao servidor.';
+  }
+});
+</script>
+</body>
+</html>
